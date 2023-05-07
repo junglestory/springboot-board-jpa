@@ -53,4 +53,11 @@ public class BoardController {
 		
 		return "redirect:/board";
     }
+	
+	@GetMapping("/delete")
+	public String updateBoard(@RequestParam(required = true) int boardNo) {
+		boardService.deleteBoard(boardNo);
+		
+		return "redirect:/board";
+    }
 }

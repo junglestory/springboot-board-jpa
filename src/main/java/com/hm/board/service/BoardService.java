@@ -69,7 +69,7 @@ public class BoardService {
 		}
     }
 	
-	public void updateBoard(RequestBoardDto boardDto){    	
+	public void updateBoard(RequestBoardDto boardDto) {
     	try {
 	    	if (!boardRepository.findById(boardDto.getBoardNo()).isEmpty()) {	    		
 	    		boardRepository.save(boardDto.toEntity());
@@ -77,5 +77,15 @@ public class BoardService {
 	    } catch (Exception ex) {
 	    	logger.error(ex.getMessage());			
 		}
-   }
+	}
+	
+	public void deleteBoard(int boardNo) {
+    	try {
+    		if (!boardRepository.findById(boardNo).isEmpty()) {
+        		boardRepository.deleteById(boardNo);	
+        	}
+		} catch (Exception ex) {
+			logger.error(ex.getMessage());
+		}
+	}
 }
