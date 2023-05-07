@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
-    <head>
+<html xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
+   <head>
         <meta charset="utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -115,47 +116,31 @@
                             <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
                             <li class="breadcrumb-item active">Tables</li>
                         </ol>
-                        <div class="card mb-4">
-                            <div class="card-body">
-                                DataTables is a third party plugin that is used to generate the demo table below. For more information about DataTables, please visit the
-                                <a target="_blank" href="https://datatables.net/">official DataTables documentation</a>
-                                .
-                            </div>
-                        </div>
-                        <div class="card mb-4">
-                            <div class="card-header d-flex justify-content-between align-items-center">
-								<div>
-	                                <i class="fas fa-table me-1"></i>
-	                                DataTable Example
-                                </div>  
-                                <a class="btn btn-primary float-right" href="/board/save" role="button">등록</a>                              
-                            </div>
-                            <div class="card-body">								
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th>번호</th>
-                                            <th>제목</th>
-                                            <th>작성자</th>
-                                            <th>조회수</th>
-                                            <th>작성일</th>
-                                            <th>수정일</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-		                           <th:block th:each="result : ${results}">
-										<tr>
-                                            <td>[[${result.boardNo}]]</td>
-                                            <td><a th:href="@{/board/detail(boardNo=${result.boardNo})}">[[${result.title}]]</a></td>
-                                            <td>[[${result.writer}]]</td>
-                                            <td>[[${result.viewCount}]]</td>
-                                            <td>[[${result.createAt}]]</td>
-                                            <td>[[${result.updateAt}]]</td>
-                                        </tr>
-									</th:block> 
-                                    </tbody>
-                                </table>
-                            </div>
+                        <div class="mx-auto col-10 col-md-8 col-lg-6">
+	                        <div class="card mt-5">
+	                            <div class="card-body">
+	                                <form class="needs-validation" method="POST" th:action="@{/board/register}">
+		                                <div class="box-body">
+		                                    <div class="col-md-10 mb-3">
+		                                        <label for="title">제목</label>
+                								<input type="text" class="form-control" id="title" name="title" placeholder="" value="" required>
+		                                    </div>
+		                                    <div class="col-md-10 mb-3">
+		                                        <label for="contents" class="col-sm-2 control-label">내용</label>		                                        
+		                                        <textarea id="contents" name="contents" class="form-control" rows="3" required></textarea>
+		                                    </div>
+		                                    <div class="col-md-2 mb-3">
+		                                        <label for="writer">작성자</label>
+                								<input type="text" class="form-control" id="writer" name="writer" placeholder="" value="" required>
+		                                    </div>
+		                                </div>
+		
+		                                <div class="box-footer text-center">
+		                                    <button type="submit" class="btn btn-primary pull-right">등록</button>
+		                                </div>
+		                            </form>
+	                            </div>
+	                        </div>
                         </div>
                     </div>
                 </main>
