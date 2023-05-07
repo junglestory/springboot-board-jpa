@@ -46,4 +46,11 @@ public class BoardController {
 		
 		return "redirect:/board";
     }
+	
+	@PostMapping("/update")
+	public String updateBoard(RequestBoardDto boardDto) {
+		boardService.updateBoard(boardDto);
+		
+		return "redirect:/board";
+    }
 }

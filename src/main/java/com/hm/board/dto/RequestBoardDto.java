@@ -15,6 +15,7 @@ public class RequestBoardDto {
 	private String title;
 	private String contents;
 	private String writer;
+	private int viewCount;
 		
 //	@Builder
 //    public RequestBoardDto(int boardNo, String title, String contents, String writer){
@@ -30,6 +31,7 @@ public class RequestBoardDto {
 				.title(title)
 				.contents(contents)
 				.writer(writer)
+				.viewCount(viewCount)
 				.build();
 	}
 }

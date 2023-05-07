@@ -14,7 +14,6 @@ import com.hm.board.repository.BoardRepository;
 
 import lombok.RequiredArgsConstructor;
 
-
 @Service
 @RequiredArgsConstructor
 public class BoardService {
@@ -64,9 +63,19 @@ public class BoardService {
 	
 	public void createBoard(RequestBoardDto boardDto) {
     	try {
-	         boardRepository.save(boardDto.toEntity());
+	        boardRepository.save(boardDto.toEntity());
 	    } catch (Exception ex) {
 	    	logger.error(ex.getMessage());
 		}
     }
+	
+	public void updateBoard(RequestBoardDto boardDto){    	
+    	try {
+	    	if (!boardRepository.findById(boardDto.getBoardNo()).isEmpty()) {	    		
+	    		boardRepository.save(boardDto.toEntity());
+	    	}
+	    } catch (Exception ex) {
+	    	logger.error(ex.getMessage());			
+		}
+   }
 }

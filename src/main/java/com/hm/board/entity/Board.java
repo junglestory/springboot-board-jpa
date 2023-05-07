@@ -34,10 +34,11 @@ public class Board {
 	private Timestamp updateAt;
 	
 	@Builder
-    public Board(int boardNo, String title, String contents, String writer) {
+    public Board(int boardNo, String title, String contents, String writer, int viewCount) {
 		this.boardNo = boardNo;
         this.title = title;
         this.contents = contents;
-        this.writer = writer ;
+        this.writer = writer;
+        this.viewCount = viewCount;
     }
 }
