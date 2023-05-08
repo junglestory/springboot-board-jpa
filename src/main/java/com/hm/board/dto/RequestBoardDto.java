@@ -2,30 +2,27 @@ package com.hm.board.dto;
 
 import com.hm.board.entity.Board;
 
-import lombok.Builder;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Getter
-@Setter
-@NoArgsConstructor
+@AllArgsConstructor
 public class RequestBoardDto {
-	private int boardNo;
+	private Long boardNo;
 	private String title;
 	private String contents;
 	private String writer;
-	private int viewCount;
+	private Integer viewCount;
 		
-//	@Builder
-//    public RequestBoardDto(int boardNo, String title, String contents, String writer){
-//        this.boardNo = boardNo;
-//        this.title = title;
-//        this.contents = contents;
-//        this.writer = writer;
-//    }
-//	
-	public Board toEntity() {
+	public Board toSaveEntity() {
+		return Board.builder()
+				.title(title)
+				.contents(contents)
+				.writer(writer)
+				.build();
+	}
+	
+	public Board toUpdateEntity() {
 		return Board.builder()
 				.boardNo(boardNo)
 				.title(title)

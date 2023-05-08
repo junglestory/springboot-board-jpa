@@ -2,6 +2,8 @@ package com.hm.board.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -20,23 +22,14 @@ public class BoardService {
 	private final Logger logger = (Logger) LoggerFactory.getLogger(BoardService.class);	
 	private final BoardRepository boardRepository;
 	
-	public List<ResponseBoardDto> getBoard(RequestBoardDto boardDto) {    	
+	public List<ResponseBoardDto> getBoards(RequestBoardDto boardDto) {    	
     	List<ResponseBoardDto> resultDto = new ArrayList<ResponseBoardDto>();
     			
     	try {
-    		List<Board> results = null;
-    		
-	        if (boardDto == null || boardDto.getBoardNo() == 0) {	        	
-	        	results = boardRepository.findAll();
-	        } else {
-	        	results = boardRepository.findByBoardNoOrderByBoardNoDesc(boardDto.getBoardNo());
-	        }
-	        
+    		List<Board> results = boardRepository.findAll();
+    			        
 	        if (results != null) {
-	        	for (Board board : results) {	        		
-	        		ResponseBoardDto dto = new ResponseBoardDto(board);	        		
-	        		resultDto.add(dto);
-	        	}
+	        	resultDto = results.stream().map(ResponseBoardDto::new).collect(Collectors.toList());
 	        }	        
 		} catch (Exception ex) {
 			logger.error(ex.getMessage());
@@ -46,7 +39,7 @@ public class BoardService {
     }
 	
 	@Transactional
-	public ResponseBoardDto detailBoard(int boardNo) {
+	public ResponseBoardDto getBoardById(int boardNo) {
 		ResponseBoardDto dto = null;
 		
     	try {
@@ -60,30 +53,30 @@ public class BoardService {
     	return dto;
     }
 	
-	
-	public void createBoard(RequestBoardDto boardDto) {
+	@Transactional
+	public void saveBoard(RequestBoardDto boardDto) {
     	try {
-	        boardRepository.save(boardDto.toEntity());
+	        boardRepository.save(boardDto.toSaveEntity());
 	    } catch (Exception ex) {
 	    	logger.error(ex.getMessage());
 		}
     }
 	
+	@Transactional
 	public void updateBoard(RequestBoardDto boardDto) {
-    	try {
-	    	if (!boardRepository.findById(boardDto.getBoardNo()).isEmpty()) {	    		
-	    		boardRepository.save(boardDto.toEntity());
-	    	}
+    	try {	    	
+	    	Board entity = boardRepository.findById(boardDto.getBoardNo()).orElseThrow();
+	        entity.update(boardDto.getTitle(), boardDto.getContents(), boardDto.getWriter());	        
 	    } catch (Exception ex) {
 	    	logger.error(ex.getMessage());			
 		}
 	}
 	
-	public void deleteBoard(int boardNo) {
-    	try {
-    		if (!boardRepository.findById(boardNo).isEmpty()) {
-        		boardRepository.deleteById(boardNo);	
-        	}
+	@Transactional
+	public void deleteBoard(long boardNo) {
+    	try {    		
+    		Board board = boardRepository.findById(boardNo).orElseThrow();    		
+    		boardRepository.delete(board);    		
 		} catch (Exception ex) {
 			logger.error(ex.getMessage());
 		}

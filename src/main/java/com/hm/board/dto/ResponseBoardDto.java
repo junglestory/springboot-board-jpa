@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class ResponseBoardDto {
-	private int boardNo;	
+	private Long boardNo;	
 	private String title;
 	private String contents;
 	private String writer;

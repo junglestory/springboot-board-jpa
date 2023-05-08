@@ -143,9 +143,9 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-		                           <th:block th:each="result : ${results}">
+		                           <th:block th:each="result, resultStat : ${results}">
 										<tr>
-                                            <td>[[${result.boardNo}]]</td>
+                                            <td>[[${resultStat.count}]]</td>
                                             <td><a th:href="@{/board/detail(boardNo=${result.boardNo})}">[[${result.title}]]</a></td>
                                             <td>[[${result.writer}]]</td>
                                             <td>[[${result.viewCount}]]</td>

@@ -4,7 +4,9 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,27 +24,27 @@ public class BoardController {
 	private final BoardService boardService;
 	
 	@GetMapping("")
-	public String getBoard(HttpServletRequest request, Model model, RequestBoardDto boardDto) {
-		model.addAttribute("results", boardService.getBoard(boardDto));
+	public String getBoards(HttpServletRequest request, Model model, RequestBoardDto boardDto) {
+		model.addAttribute("results", boardService.getBoards(boardDto));
 		
         return "board/boardList";
     }
 	
 	@GetMapping("detail")
-	public String getDetail(@RequestParam(required = true) int boardNo, Model model) {
-		model.addAttribute("result", boardService.detailBoard(boardNo));
+	public String getBoardById(@RequestParam(required = true) int boardNo, Model model) {
+		model.addAttribute("result", boardService.getBoardById(boardNo));
 		
         return "board/boardDetail";
     }
 	
 	@GetMapping("/save")
-	public String saveBoard() {
-        return "board/boardRegist";
+	public String saveBoardForm() {
+        return "board/boardSave";
     }
 	
-	@PostMapping("/register")
-	public String registerBoard(RequestBoardDto boardDto) {
-		boardService.createBoard(boardDto);
+	@PostMapping("/save")
+	public String saveBoard(RequestBoardDto boardDto) {
+		boardService.saveBoard(boardDto);
 		
 		return "redirect:/board";
     }
@@ -55,7 +57,7 @@ public class BoardController {
     }
 	
 	@GetMapping("/delete")
-	public String updateBoard(@RequestParam(required = true) int boardNo) {
+	public String deleteBoard(@RequestParam(required = true) int boardNo) {
 		boardService.deleteBoard(boardNo);
 		
 		return "redirect:/board";

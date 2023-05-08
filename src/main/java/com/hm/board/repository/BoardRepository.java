@@ -8,12 +8,10 @@ import org.springframework.data.repository.query.Param;
 
 import com.hm.board.entity.Board;
 
-public interface BoardRepository extends JpaRepository<Board, Integer>{
-	List<Board> findByBoardNoOrderByBoardNoDesc(int boardNo);
-	
-	Board findByBoardNo(int boardNo);
+public interface BoardRepository extends JpaRepository<Board, Long> {
+	Board findByBoardNo(long boardNo);
 	
 	@Modifying
 	@Query("update Board set viewCount =  viewCount + 1 where boardNo = :boardNo") 
-	int updateView(@Param("boardNo") int boardNo);
+	int updateView(@Param("boardNo") long boardNo);
 }
